@@ -194,7 +194,7 @@ function custom_plugin_sc_func($atts)
 
 	$args = shortcode_atts( array(
 		'post_type'   => 'post',
-		'posts_per_page'=>-1,
+		'limit'=>-1,
 		'post_status' => 'publish',
 		'cat'=> '',
 		'orderby'=> 'date',
