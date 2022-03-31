@@ -3,6 +3,7 @@
 include('lib/theme-functions.php');
 include('lib/registers.php');
 include('lib/custom-hooks.php');
+include('lib/shortcodes.php');
 include('lib/global-ajax-calls.php');
 //Chooks
 //Shortcodes
