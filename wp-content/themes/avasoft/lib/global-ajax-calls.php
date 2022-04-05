@@ -16,7 +16,7 @@ function get_data() {
 		        'paged' => $page_no, 
 		    );
     $query = new WP_Query( $args );
-		if($query->have_posts())
+	if($query->have_posts())
 		{	
 			while($query->have_posts())
 			{
@@ -33,5 +33,45 @@ function get_data() {
 		}	
     die();
     }
+
+
+
+add_action( 'wp_ajax_nopriv_cf_form_selection', 'cf_form_selection' );
+add_action( 'wp_ajax_cf_form_selection', 'cf_form_selection' );
+
+function cf_form_selection()
+{
+	global$wpdb;
+	$form_name = 'Custom Form';
+	$f_name =  $_POST['f_name'];
+	$last_name = $_POST['last_name'];
+	$email = $_POST['email'];
+	$phone_no = $_POST['phone_no'];
+	$city_selection = $_POST['city_selection'];
+	$date = $_POST['date'];
+	$table_name = $wpdb->prefix.'custom_cf';
+
+	$insert = $wpdb->insert($table_name, array(
+    'form_name' => $form_name,
+    'first_name' => $f_name,
+    'last_name' => $last_name, // ... and so on
+    'email' => $email, 
+    'phone_no' => $phone_no, 
+    'message' => 'Testing the Form', 
+    'city' => $city_selection, 
+    'registerdate' => $date
+	));
+
+	if(!is_wp_error($insert))
+	{
+		echo 'Success insertion';
+	}
+	else
+	{
+		echo 'fAILED';
+	}
+	die();
+}
+
 
 ?>

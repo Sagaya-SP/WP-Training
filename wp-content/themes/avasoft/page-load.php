@@ -35,6 +35,14 @@ get_header();
 	</div>
 	<button class="loader_click" data-load-next="2">Load Next Post</button>
 </div>
+
+
+
+
 <?php
+
+echo do_shortcode('[custom_form]');
+
+
 get_footer();
 ?>

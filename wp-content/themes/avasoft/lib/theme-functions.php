@@ -138,4 +138,27 @@ function custom_callback_functions()
 	<?php
 }
 //Theme Options Register Ends
+
+
+
+/*
+global $wpdb;
+$charset_collate = $wpdb->get_charset_collate();
+
+$sql = "CREATE TABLE `{$wpdb->base_prefix}custom_cf` (
+  id INT NOT NULL AUTO_INCREMENT,
+  form_name varchar(255) NOT NULL,
+  first_name varchar(255) NOT NULL,
+  last_name varchar(255),
+  email varchar(255) NOT NULL,
+  phone_no bigint(20) UNSIGNED,
+  message varchar(255),
+  city varchar(20) NOT NULL,
+  registerdate date NOT NULL,
+  PRIMARY KEY  (id)
+) $charset_collate;";
+
+require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+dbDelta($sql);
+*/
 ?>

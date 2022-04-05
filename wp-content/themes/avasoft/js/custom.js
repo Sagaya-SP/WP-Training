@@ -22,4 +22,41 @@ $(document).ready(function()
             }
         });
 	});
+
+
+    $('.custom_form_submit').submit(function(e)
+    {
+        e.preventDefault();
+        console.log('Testing the form');
+        var first_name = $('.first_name').val();
+        var last_name = $('.last_name').val();
+        var email = $('.email_field').val();
+        var phone_no = $('.phone_no').val();
+        var city_selection = $('.city_selection').val();
+        var date = $('.date').val();
+        var msg_field = 
+        console.log(first_name);
+        console.log(last_name);
+        console.log(email);
+        console.log(phone_no);
+        console.log(city_selection);
+        console.log(date);
+        $.ajax({
+            type : "POST",
+            url : "/wp-training/wp-admin/admin-ajax.php",
+            data : {
+                action: "cf_form_selection",
+                f_name: first_name,
+                last_name: last_name,
+                email: email,
+                phone_no: phone_no,
+                city_selection: city_selection,
+                date: date,
+            },
+            success: function(response) {
+                console.log(response);
+                $('.custom_form_submit').trigger("reset");
+            }
+        });
+    });
 });
