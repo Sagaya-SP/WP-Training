@@ -30,6 +30,8 @@ function front_end_call_functions()
 	wp_enqueue_script( 'bootstrap_bundle', get_template_directory_uri() . '/js/bootstrap.bundle.min.js', false, '1.0.0' );
 	wp_enqueue_style( 'bootstrap_css', get_template_directory_uri() . '/css/bootstrap.min.css', false, '1.0.0' );
 	wp_enqueue_style( 'custom_style_css', get_template_directory_uri() . '/style.css', false, '1.0.0' );
+    wp_enqueue_script( 'custom_js', get_template_directory_uri() . '/js/custom.js', false, '1.0.0' );
+    
     
 }
 //Enqueue Frontend Dependent CSS & JS Ends
@@ -151,10 +153,11 @@ function wpbeginner_numeric_posts_nav($wp_query) {
     }
  
     /** Next Post Link */
-    if ( get_next_posts_link() )
+    if ( get_next_posts_link() ){
         printf( '<li>%s</li>' . "\n", get_next_posts_link() );
  
     echo '</ul></div>' . "\n";
+    }
  
 }
 
@@ -181,4 +184,34 @@ function wpbeginner_numeric_posts_nav($wp_query) {
 // echo $response;
 
 
+/*$curl = curl_init();
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://avasoftstg.wpengine.com/wp-json/wp/v2/posts',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'GET',
+  CURLOPT_HTTPHEADER => array(
+    'Cookie: aiovg_rand_seed=259876495'
+  ),
+));
+
+$response = curl_exec($curl);
+
+curl_close($curl);
+echo $response;
+
+$response_array = json_decode($response,true);
+echo '<pre>'; print_r($response_array); echo '</pre>'; */
+
+/*
+Post method  -- To create New Entry  (Insert/Create) - POST
+Get method  - To fetch the Entry (Read)  - GET
+Modify Method - To Update anything (Edit) - PUT
+Delete method - To remove something (Delete) - DELETE
+
+*/
 ?>
