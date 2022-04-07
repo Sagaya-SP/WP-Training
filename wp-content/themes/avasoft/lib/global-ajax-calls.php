@@ -73,5 +73,85 @@ function cf_form_selection()
 	die();
 }
 
+add_action( 'wp_ajax_nopriv_sql_data', 'sql_data' );
+add_action( 'wp_ajax_sql_data', 'sql_data' );
+function sql_data()
+{
+	global $wpdb;
+	$table_name = $wpdb->prefix.'custom_cf';
+	$sql_query = 'SELECT * from '.$table_name.' WHERE registerdate BETWEEN';
 
+	$date_lt_5 = "'2022-03-01' AND '2022-03-05'";
+	$date_lt_6 = "'2022-03-06' AND '2022-03-15'";
+
+	$date_lt_array =array(
+		"'2022-03-01' AND '2022-03-05'",
+		"'2022-03-06' AND '2022-03-15'") ;
+
+	$sql_query_5 = "SELECT * from ".$table_name." WHERE registerdate BETWEEN '2022-03-01' AND '2022-03-05'";
+	$sql_query_6 = "SELECT * from ".$table_name." WHERE registerdate BETWEEN '2022-03-06' AND '2022-03-15'";
+		
+	$dynamic_query_5 = $sql_query.' '.$date_lt_5;
+	$dynamic_query_6 = $sql_query.' '.$date_lt_6;
+
+	$dynamic_query_by_array_5 = $sql_query.' '.$date_lt_array[0];
+	$dynamic_query_by_array_6 =  $sql_query.' '.$date_lt_array[1];
+
+	//echo $sql_query_5.'<br/>';   //SELECT * from tr_custom_cf WHERE registerdate BETWEEN '2022-03-01' AND '2022-03-05'
+	//echo $dynamic_query_5.'<br/>'; //SELECT * from tr_custom_cf WHERE registerdate BETWEEN '2022-03-01' AND '2022-03-05'
+	$prepare_query = $wpdb->prepare($dynamic_query_by_array_5); //SELECT * from tr_custom_cf WHERE registerdate BETWEEN '2022-03-01' AND '2022-03-05'
+	$get_result = $wpdb->get_results($prepare_query,ARRAY_A);
+	$table = 'Clicked';
+	//echo '<pre>'; print_r($get_result); echo '</pre>';
+	$table .= '<table>
+	<thead>
+	<tr>
+	<th>ID</th>
+	<th>Form Name</th>
+	<th>First Name</th>
+	<th>Last Name</th>
+	<th>Email</th>
+	<th>Phone No.</th>
+	<th>Register Date</th>
+	</tr>
+	</thead>
+	<tbody>';
+
+	for($i=0;$i<sizeof($get_result);$i++)
+	{
+		$id = $get_result[$i]['id'];
+		$form_name = $get_result[$i]['form_name'];
+		$first_name = $get_result[$i]['first_name'];
+		$last_name = $get_result[$i]['last_name'];
+		$email = $get_result[$i]['email'];
+		$phone_no = $get_result[$i]['phone_no'];
+		$registerdate = $get_result[$i]['registerdate'];
+		$table .= '<tr>
+		<td>'.$id.'</td>
+		<td>'.$form_name.'</td>
+		<td>'.$first_name.'</td>
+		<td>'.$last_name.'</td>
+		<td>'.$email.'</td>
+		<td>'.$phone_no.'</td>
+		<td>'.$registerdate.'</td>
+		</tr>';
+
+	}
+
+	$table .= '</tbody></table>';
+	echo $table;
+	die();
+
+	/* 
+	if(date < 05/03/2022 && date >= 01/03/2022)
+	{
+		select * dfadf where 
+
+	}
+	else if(date < 15/03/2022 && date >= 06/03/2022)
+	{
+		select * asdf where 
+	}
+	*/
+}
 ?>

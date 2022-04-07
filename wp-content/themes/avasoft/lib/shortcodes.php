@@ -23,4 +23,15 @@ function custom_form_cb_func()
 
 	return $output;
 }
+
+add_shortcode('fetching_response','fetching_response_func');
+
+function fetching_response_func()
+{
+	$output = '<div class="fetch_details_button">
+	<button type="submit" class="fetch_output">Click Here</button>
+	</div>';
+
+	return $output;
+}
 ?>

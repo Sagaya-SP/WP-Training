@@ -59,4 +59,22 @@ $(document).ready(function()
             }
         });
     });
+
+    $('.fetch_output').click(function(e)
+    {
+        console.log('Fetch Button Clicked');
+       // e.preventDefault();
+        $.ajax({
+            type : "POST",
+            url : "/wp-training/wp-admin/admin-ajax.php",
+            data : {
+                action: "sql_data",
+            },
+            success: function(response) {
+                console.log(response);
+                $('.output_loader').empty();
+                $('.output_loader').html(response);
+            }
+        });
+    })
 });

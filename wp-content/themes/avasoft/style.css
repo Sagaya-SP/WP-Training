@@ -8,3 +8,6 @@ Description: All About Avasoft
 .logo img {
     width: 100px;
 }
+button.fetch_output {
+    margin-top: 30px;
+}

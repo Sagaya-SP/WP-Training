@@ -43,6 +43,11 @@ get_header();
 
 echo do_shortcode('[custom_form]');
 
+echo do_shortcode('[fetching_response]');
 
+?>
+<div class="output_loader">
+</div>
+<?php
 get_footer();
 ?>
