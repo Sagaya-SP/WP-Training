@@ -6,6 +6,8 @@ global $wpdb,$post;
 $post_id = get_the_ID();
 $post_title = get_the_title();
 $post_content = get_the_content();
+
+the_content();
 $permalink = get_the_permalink();
 echo $permalink;
 //get_search_form(); 
