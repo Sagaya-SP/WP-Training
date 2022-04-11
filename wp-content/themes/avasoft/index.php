@@ -11,7 +11,7 @@ if(have_posts())
 		echo 'Post Invoked';
 		get_template_part('single.php');
 	}
-	if(is_page())
+	if(is_page())   //Default Template loops out here
 	{
 		echo 'Page invoked';
 		get_template_part('page.php');

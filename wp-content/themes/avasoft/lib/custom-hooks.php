@@ -214,4 +214,125 @@ Modify Method - To Update anything (Edit) - PUT
 Delete method - To remove something (Delete) - DELETE
 
 */
+
+//add_filter('rest_pre_serve_request', 'serve_static_resources', 11, 4);
+
+
+//
+
+add_action( 'rest_api_init', 'hook_function');
+function hook_function() {
+  register_rest_route( 'myplugin', '/test/(?P<id>\d+)', array(
+    'methods' => 'GET',
+    'callback' => 'my_awesome_func',
+  ));
+} 
+
+add_action( 'rest_api_init', 'empty_hook_function');
+function empty_hook_function() {
+  register_rest_route( 'myplugin', '/test/page/', array(
+    'methods' => 'GET',
+    'callback' => 'my_awesome_func_new',
+  ));
+}
+
+function my_awesome_func_new(WP_REST_Request $request)
+{
+$per_page = $request->get_param( 'per_page' );
+$paged = $request->get_param( 'page' );
+//echo $per_page;
+
+global $wpdb;
+ $args = array(
+       // ID of a page, post, or custom type
+      'post_type' => array('post','page'),
+      'posts_per_page' => $per_page,
+      'paged' => $paged
+    );
+    $my_posts = new WP_Query($args);
+    //$result = 'No Post Found';
+    $i = 0;
+    if($my_posts->have_posts())
+    {
+        $max_pages = $my_posts->max_num_pages;
+        $total = $my_posts->found_posts;
+        while($my_posts->have_posts())
+        {
+            $my_posts->the_post();
+            $id =  get_the_ID();
+            $title = get_the_title();
+            $content = get_the_content();
+            $permalink = get_the_permalink();
+            $featured_image_id = get_post_thumbnail_id(get_the_ID());
+            $featured_image = '';
+            if(!empty($featured_image_id))
+            {
+                $featured_image = wp_get_attachment_image_url($featured_image_id);
+            }
+            
+            $result[$i] = array(
+                'id' => $id,
+                'title' => $title,
+                'description'=>$content,
+                'permalink'=>$permalink,
+                'featured_image'=>$featured_image
+            ); 
+            $i++;
+        }
+    }
+
+            $response = new WP_REST_Response($result, 200);
+
+            $response->header( 'X-WP-Total', $total ); 
+            $response->header( 'X-WP-TotalPages', $max_pages );
+   
+
+    //echo '<pre>'; print_r($result); echo '</pre>';
+    //echo json_encode($result);
+    return $response;
+
+}
+
+
+function my_awesome_func(WP_REST_Request $request)
+{ 
+
+    $res_id = $request['id'];
+
+    //echo $post_limit;
+    $args = array(
+       // ID of a page, post, or custom type
+      'p'=> $res_id,
+      'post_type' => array('post','page')
+    );
+
+    $my_posts = new WP_Query($args);
+    $result = array();
+    $result = 'No Post Found';
+    if($my_posts->have_posts())
+    {
+        while($my_posts->have_posts())
+        {
+            $my_posts->the_post();
+            $title = get_the_title();
+            $content = get_the_content();
+            $permalink = get_the_permalink();
+            $featured_image_id = get_post_thumbnail_id(get_the_ID());
+            $featured_image = '';
+            if(!empty($featured_image_id))
+            {
+                $featured_image = wp_get_attachment_image_url($featured_image_id);
+            }
+            
+            $result = array(
+                'title' => $title,
+                'description'=>$content,
+                'permalink'=>$permalink,
+                'featured_image'=>$featured_image
+            ); 
+        }
+    }
+
+    echo json_encode($result);
+}
 ?>

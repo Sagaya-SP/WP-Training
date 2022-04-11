@@ -70,6 +70,7 @@ $(document).ready(function()
             data : {
                 action: "sql_data",
             },
+            beforeSend:
             success: function(response) {
                 console.log(response);
                 $('.output_loader').empty();
