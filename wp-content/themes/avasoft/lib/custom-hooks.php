@@ -239,6 +239,8 @@ function empty_hook_function() {
 function my_awesome_func_new(WP_REST_Request $request)
 {
 $per_page = $request->get_param( 'per_page' );
+$order_field = $request->get_param( 'order_field' );
+$sort = $request->get_param( 'sort' );
 $paged = $request->get_param( 'page' );
 //echo $per_page;
 
@@ -247,9 +249,15 @@ global $wpdb;
        // ID of a page, post, or custom type
       'post_type' => array('post','page'),
       'posts_per_page' => $per_page,
-      'paged' => $paged
+      'orderby' => $order_field ,
+      'order' => $sort
+      //'paged' => $paged
     );
+
+    //echo '<pre>'; print_r($args); echo '</pre>';
+
     $my_posts = new WP_Query($args);
+
     //$result = 'No Post Found';
     $i = 0;
     if($my_posts->have_posts())
@@ -335,4 +343,26 @@ function my_awesome_func(WP_REST_Request $request)
 
     echo json_encode($result);
 }
+
+
+
+$curl = curl_init();
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'http://localhost:8080/wp-training/wp-json/myplugin/test/page?order_field=id&sort=DESC',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 200,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'GET',
+));
+
+$response = curl_exec($curl);
+curl_close($curl);
+echo $response;
+
+$response_array = json_decode($response,true);
+echo '<pre>'; print_r($response_array); echo '</pre>';
+//echo sizeof($response_array);
 ?>
